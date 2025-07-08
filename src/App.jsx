@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import SavedMoviesPage from './pages/SavedMoviesPage';
 import './index.css';
+import Footer from './components/Footer';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/saved" element={<SavedMoviesPage />} />
       </Routes>
+      <Footer />  
       <style>
   {`
     body {
