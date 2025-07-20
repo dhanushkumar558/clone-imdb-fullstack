@@ -10,6 +10,7 @@ const BASE_IMG = 'https://imdb.boltxgaming.com';
 export default function MovieCard({ movie, saved: initiallySaved }) {
   const { user } = useUser();
   const [saved, setSaved] = useState(initiallySaved);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +19,12 @@ export default function MovieCard({ movie, saved: initiallySaved }) {
 
   const toggleSave = async (e) => {
     e.stopPropagation();
-    if (!user) return alert('Login to save movies');
+
+    if (!user) {
+      setMessage('Login to save movies');
+      setTimeout(() => setMessage(''), 3000);
+      return;
+    }
 
     try {
       if (saved) {
@@ -30,9 +36,12 @@ export default function MovieCard({ movie, saved: initiallySaved }) {
         });
       }
       setSaved(!saved);
+      setMessage(saved ? 'Removed from saved' : 'Added to saved');
     } catch {
-      alert('Action failed');
+      setMessage('Action failed');
     }
+
+    setTimeout(() => setMessage(''), 3000);
   };
 
   return (
@@ -104,6 +113,19 @@ export default function MovieCard({ movie, saved: initiallySaved }) {
             textOverflow: 'ellipsis'
           }}>{movie.description}</p>
         </div>
+
+        {/* Message area */}
+        {message && (
+          <div style={{
+            color: saved ? '#dc3545' : '#198754',
+            fontSize: '0.75rem',
+            textAlign: 'center',
+            marginTop: '4px',
+            padding: '2px 10px',
+          }}>
+            {message}
+          </div>
+        )}
 
         {/* Bottom row: rating + save icon */}
         <div className="d-flex justify-content-between align-items-center px-3 pb-3 mt-auto">
